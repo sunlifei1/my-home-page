@@ -8,7 +8,6 @@
           </div>
           <div class="item_wrap" v-else @click='itemWrapClick'>
             <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.name}}</div>
-
             <div class="model_wrap" v-if='modelWrapIsShow'>
               <draggable v-model="element.sonItem" group='site'>
                 <transition-group style="width:100%;height:50vh;display:block">
@@ -16,16 +15,28 @@
                     <div class="item">
                       {{element.name}}
                     </div>
-                    <div class="title">{{element.desc}}</div>
+                    <span class="title">{{element.title}}</span>
                   </div>
                 </transition-group>
               </draggable>
             </div>
           </div>
-
+          <span class="title">{{element.title}}</span>
         </div>
       </transition-group>
     </draggable>
+    <div class="add_item_wrap" @click='addSite'>
+      <div class='item'>
+        +
+      </div>
+      <span class="title">加站</span>
+    </div>
+    <div class="add_item_wrap" @click='addGroup'>
+      <div class='item'>
+        +
+      </div>
+      <span class="title">加组</span>
+    </div>
   </div>
 </template>
 <script>
@@ -44,6 +55,7 @@ export default {
           name: 1,
           id: 1,
           url: 'www.baidu.com',
+          title: '1',
           sonItem: [
             {
               name: 99,
@@ -56,6 +68,7 @@ export default {
           name: 2,
           id: 2,
           url: 'www.baidu.com',
+          title: '2',
         },
         {
           name: 3,
@@ -101,6 +114,24 @@ export default {
     }
   },
   methods: {
+    addSite() {
+      let id = new Date().getTime()
+      this.myArray.push({
+        name: 9,
+        id: id,
+        url: 'www.baidu.com',
+        title: 9,
+      })
+    },
+    addGroup() {
+      let id = new Date().getTime()
+      this.myArray.push({
+        name: 66,
+        id: id,
+        sonItem: [],
+        title: 66,
+      })
+    },
     itemWrapClick() {
       console.log('点击')
       this.modelWrapIsShow = !this.modelWrapIsShow
@@ -111,21 +142,22 @@ export default {
 <style lang="less">
 .item {
   background-color: rgb(255, 251, 0);
-  width: 13vw;
-  height: 13vw;
+  width: 10vw;
+  height: 10vw;
   border-radius: 10px;
   text-align: center;
-  line-height: 13vw;
+  line-height: 10vw;
   margin: 0 auto;
 }
 .item_wrap {
   background-color: #ddd;
   border: 1px solid #000;
-  width: 16vw;
-  height: 16vw;
+  width: 10vw;
+  height: 10vw;
   border-radius: 10px;
   text-align: center;
-  line-height: 30px;
+  // line-height: 30px;
+  margin: 0 auto;
   overflow: hidden;
 }
 .parent_item {
@@ -134,19 +166,19 @@ export default {
   height: 16vw;
   border-radius: 10px;
   text-align: center;
-  line-height: 16vw;
+  // line-height: 16vw;
   float: left;
-  margin: 1.5%;
+  margin: 2.5vw 1.5vw 2.5vw 1.5vw;
 }
 .add_item_wrap {
   background-color: pink;
-  width: 30px;
-  height: 30px;
+  width: 16vw;
+  height: 16vw;
   border-radius: 10px;
   text-align: center;
-  line-height: 30px;
+  // line-height: 16vw;
   float: left;
-  margin: 5px;
+  margin: 2.5vw 1.5vw 2.5vw 1.5vw;
 }
 .model_wrap {
   position: fixed;
@@ -172,5 +204,10 @@ export default {
   line-height: 30px;
   float: left;
   margin: 5px;
+}
+.title {
+  width: 100%;
+  height: 2vw;
+  font-size: 10px;
 }
 </style>
