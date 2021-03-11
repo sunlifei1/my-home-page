@@ -1,14 +1,14 @@
 <template>
-  <div style='width:100%'>
+  <div style='width:100%;height:100vh' @click='bodyClick'>
     <draggable v-model="myArray" group='site'>
       <transition-group>
         <div class='parent_item' v-for="element in myArray" :key="element.id">
-          <div class="item" v-if="!element.sonItem">
+          <div class="item" v-if="!element.sonItem" @click.stop='itemClick(element.id)'>
             {{element.name}}
           </div>
-          <div class="item_wrap" v-else @click='itemWrapClick'>
+          <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
             <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.name}}</div>
-            <div class="model_wrap" v-if='modelWrapIsShow'>
+            <div class="model_wrap" v-if='modelWrapIsShow[element.id]'>
               <draggable v-model="element.sonItem" group='site'>
                 <transition-group style="width:100%;height:50vh;display:block">
                   <div class='parent_item' v-for="element in element.sonItem" :key="element.id">
@@ -37,6 +37,15 @@
       </div>
       <span class="title">加组</span>
     </div>
+    <van-dialog v-model="show" :title="addTitle" show-cancel-button>
+      <van-form @submit="onSubmit">
+        <van-field v-model="username" name="用户名" label="标题" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
+        <van-field v-model="password" type="password" name="网址" label="网址" placeholder="密码" :rules="[{ required: true, message: '请填写密码' }]" />
+        <div style="margin: 16px;">
+          <van-button round block type="info" native-type="submit">提交</van-button>
+        </div>
+      </van-form>
+    </van-dialog>
   </div>
 </template>
 <script>
@@ -49,7 +58,11 @@ export default {
   },
   data() {
     return {
-      modelWrapIsShow: false,
+      addTitle: '',
+      username: '',
+      password: '',
+      show: false,
+      modelWrapIsShow: {},
       myArray: [
         {
           name: 1,
@@ -114,7 +127,8 @@ export default {
     }
   },
   methods: {
-    addSite() {
+    onSubmit(values) {
+      console.log('submit', values)
       let id = new Date().getTime()
       this.myArray.push({
         name: 9,
@@ -123,7 +137,19 @@ export default {
         title: 9,
       })
     },
+    bodyClick() {
+      Object.keys(this.modelWrapIsShow).forEach((item) => {
+        console.log(item)
+        this.modelWrapIsShow[item] = false
+      })
+      this.$forceUpdate()
+    },
+    addSite() {
+      this.addTitle = '新增站点'
+      this.show = true
+    },
     addGroup() {
+      // this.show = true
       let id = new Date().getTime()
       this.myArray.push({
         name: 66,
@@ -132,10 +158,18 @@ export default {
         title: 66,
       })
     },
-    itemWrapClick() {
+    itemWrapClick(id) {
       console.log('点击')
-      this.modelWrapIsShow = !this.modelWrapIsShow
+      console.log(id)
+      if (this.modelWrapIsShow[id]) {
+        this.modelWrapIsShow[id] = !this.modelWrapIsShow[id]
+      } else {
+        this.modelWrapIsShow[id] = true
+      }
+      this.$forceUpdate()
+      console.log(this.modelWrapIsShow)
     },
+    itemClick(id) {},
   },
 }
 </script>
