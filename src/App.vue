@@ -3,11 +3,11 @@
     <draggable v-model="myArray" group='site'>
       <transition-group>
         <div class='parent_item' v-for="element in myArray" :key="element.id">
-          <div class="item" v-if="!element.sonItem" @click.stop='itemClick(element.id)'>
-            {{element.name}}
+          <div class="item" v-if="!element.sonItem" @click.stop='itemClick(element.url)'>
+            {{element.title}}
           </div>
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
-            <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.name}}</div>
+            <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.title}}</div>
             <div class="model_wrap" v-if='modelWrapIsShow[element.id]'>
               <draggable v-model="element.sonItem" group='site'>
                 <transition-group style="width:100%;height:50vh;display:block">
@@ -65,63 +65,62 @@ export default {
       modelWrapIsShow: {},
       myArray: [
         {
-          name: 1,
           id: 1,
-          url: 'www.baidu.com',
-          title: '1',
+          url: 'https://www.baidu.com',
+          title: '每日逛',
           sonItem: [
             {
-              name: 99,
+              title: 99,
               id: 99,
-              url: 'www.baidu.com',
+              url: 'https://www.baidu.com',
             },
           ],
         },
         {
-          name: 2,
           id: 2,
-          url: 'www.baidu.com',
-          title: '2',
+          url: 'https://www.fuliba2020.net',
+          title: '福利吧',
         },
         {
-          name: 3,
+          title: '百度',
           id: 3,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
+          title: '百度',
         },
         {
-          name: 4,
+          title: '吾爱破',
           id: 4,
-          url: 'www.baidu.com',
+          url: 'https://www.52pojie.cn/index.php',
         },
         {
-          name: 5,
+          title: 5,
           id: 5,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
         {
-          name: 6,
+          title: 6,
           id: 6,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
         {
-          name: 7,
+          title: 7,
           id: 7,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
         {
-          name: 8,
+          title: 8,
           id: 8,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
         {
-          name: 9,
+          title: 9,
           id: 9,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
         {
-          name: 10,
+          title: 10,
           id: 10,
-          url: 'www.baidu.com',
+          url: 'https://www.baidu.com',
         },
       ],
     }
@@ -133,7 +132,7 @@ export default {
       this.myArray.push({
         name: 9,
         id: id,
-        url: 'www.baidu.com',
+        url: 'https://www.baidu.com',
         title: 9,
       })
     },
@@ -169,25 +168,31 @@ export default {
       this.$forceUpdate()
       console.log(this.modelWrapIsShow)
     },
-    itemClick(id) {},
+    itemClick(url) {
+      console.log(url)
+      var a = document.createElement('a')
+      a.setAttribute('href', url)
+      a.setAttribute('target', '_blank')
+      a.click()
+    },
   },
 }
 </script>
 <style lang="less">
 .item {
-  background-color: rgb(255, 251, 0);
-  width: 10vw;
-  height: 10vw;
+  background-color: rgb(109, 180, 91);
+  width: 13vw;
+  height: 13vw;
   border-radius: 10px;
   text-align: center;
-  line-height: 10vw;
+  line-height: 13vw;
   margin: 0 auto;
 }
 .item_wrap {
   background-color: #ddd;
-  border: 1px solid #000;
-  width: 10vw;
-  height: 10vw;
+  border: 1px solid #ccc;
+  width: 13vw;
+  height: 13vw;
   border-radius: 10px;
   text-align: center;
   // line-height: 30px;
@@ -195,7 +200,7 @@ export default {
   overflow: hidden;
 }
 .parent_item {
-  background-color: pink;
+  //background-color: pink;
   width: 16vw;
   height: 16vw;
   border-radius: 10px;
@@ -205,7 +210,7 @@ export default {
   margin: 2.5vw 1.5vw 2.5vw 1.5vw;
 }
 .add_item_wrap {
-  background-color: pink;
+  // background-color: pink;
   width: 16vw;
   height: 16vw;
   border-radius: 10px;
@@ -216,10 +221,10 @@ export default {
 }
 .model_wrap {
   position: fixed;
-  background-color: rgb(22, 223, 146);
+  background-color: #ccc;
   width: 100%;
   height: 40vh;
-  border: 1px solid #000;
+  border: 1px solid #ccc;
   border-radius: 10px;
   text-align: center;
   line-height: 30px;
@@ -230,7 +235,7 @@ export default {
   z-index: 99;
 }
 .mini_item {
-  background-color: pink;
+  // background-color: pink;
   width: 10px;
   height: 10px;
   border-radius: 10px;
