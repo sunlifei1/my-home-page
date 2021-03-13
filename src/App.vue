@@ -13,7 +13,7 @@
                 <transition-group style="width:100%;height:50vh;display:block">
                   <div class='parent_item' v-for="element in element.sonItem" :key="element.id">
                     <div class="item">
-                      {{element.name}}
+                      {{element.title}}
                     </div>
                     <span class="title">{{element.title}}</span>
                   </div>
