@@ -4,7 +4,7 @@
       <transition-group>
         <div class='parent_item' v-for="element in myArray" :key="element.id">
           <div class="item" v-if="!element.sonItem">
-            <a :href="element.url"> {{element.title}}</a>
+            <a class="a_style" :href="element.url"> {{element.title}}</a>
 
           </div>
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
@@ -259,5 +259,10 @@ export default {
   width: 100%;
   height: 2vw;
   font-size: 10px;
+}
+.a_style {
+  width: 13vw;
+  height: 13vw;
+  display: block;
 }
 </style>
