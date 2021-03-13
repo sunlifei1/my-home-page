@@ -3,8 +3,9 @@
     <draggable v-model="myArray" group='site'>
       <transition-group>
         <div class='parent_item' v-for="element in myArray" :key="element.id">
-          <div class="item" v-if="!element.sonItem" @click.stop='itemClick(element.url)'>
-            {{element.title}}
+          <div class="item" v-if="!element.sonItem">
+            <a :href="element.url"> {{element.title}}</a>
+
           </div>
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
             <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.title}}</div>
@@ -37,6 +38,7 @@
       </div>
       <span class="title">加组</span>
     </div>
+
     <van-dialog v-model="show" :title="addTitle" show-cancel-button>
       <van-form @submit="onSubmit">
         <van-field v-model="username" name="用户名" label="标题" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
@@ -50,7 +52,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
-
+import { syncFunc } from './api/index'
 export default {
   name: 'Home',
   components: {
@@ -126,6 +128,12 @@ export default {
     }
   },
   methods: {
+    syncData() {
+      syncFunc().then((res) => {
+        console.log(res.data)
+        this.myArray = res.data.data
+      })
+    },
     onSubmit(values) {
       console.log('submit', values)
       let id = new Date().getTime()
@@ -175,6 +183,9 @@ export default {
       a.setAttribute('target', '_blank')
       a.click()
     },
+  },
+  created() {
+    this.syncData()
   },
 }
 </script>
