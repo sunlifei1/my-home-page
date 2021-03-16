@@ -39,20 +39,20 @@
       <span class="title">加组</span>
     </div>
 
-    <van-dialog v-model="show" :title="addTitle" show-cancel-button>
+    <van-dialog v-model="show" :title="addTitle" show-cancel-button @confirm='onSubmit'>
       <van-form @submit="onSubmit">
-        <van-field v-model="username" name="用户名" label="标题" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
-        <van-field v-model="password" type="password" name="网址" label="网址" placeholder="密码" :rules="[{ required: true, message: '请填写密码' }]" />
-        <div style="margin: 16px;">
+        <van-field v-model="username" name="标题" label="标题" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
+        <van-field v-model="password" name="网址" label="网址" placeholder="网址" :rules="[{ required: true, message: '请填写密码' }]" />
+        <!-- <div style="margin: 16px;">
           <van-button round block type="info" native-type="submit">提交</van-button>
-        </div>
+        </div> -->
       </van-form>
     </van-dialog>
   </div>
 </template>
 <script>
 import draggable from 'vuedraggable'
-import { syncFunc } from './api/index'
+import { syncFunc, addSite } from './api/index'
 export default {
   name: 'Home',
   components: {
@@ -135,13 +135,20 @@ export default {
       })
     },
     onSubmit(values) {
-      console.log('submit', values)
+      console.log('submit')
+      console.log(this.username)
+      console.log(this.password)
+
       let id = new Date().getTime()
       this.myArray.push({
-        name: 9,
+        name: this.username,
         id: id,
-        url: 'https://www.baidu.com',
-        title: 9,
+        url: this.password,
+        title: this.username,
+      })
+      addSite(this.myArray).then((res) => {
+        console.log(res.data)
+        this.syncData()
       })
     },
     bodyClick() {

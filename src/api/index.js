@@ -6,3 +6,10 @@ export function syncFunc(data) {
         data: data || {},
     })
 }
+export function addSite(data) {
+    return request({
+        url: 'https://shielded-oasis-36680.herokuapp.com/add',
+        method: 'post',
+        data: data || {},
+    })
+}
