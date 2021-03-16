@@ -141,12 +141,13 @@ export default {
 
       let id = new Date().getTime()
       this.myArray.push({
-        name: this.username,
         id: id,
         url: this.password,
         title: this.username,
       })
-      addSite(this.myArray).then((res) => {
+      console.log(JSON.parse(JSON.stringify(this.myArray)))
+      let data = JSON.parse(JSON.stringify(this.myArray))
+      addSite({ data: data }).then((res) => {
         console.log(res.data)
         this.syncData()
       })
