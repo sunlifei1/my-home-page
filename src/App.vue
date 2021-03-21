@@ -4,25 +4,25 @@
       <transition-group>
         <div class='parent_item' v-for="element in myArray" :key="element.id">
           <div class="item" v-if="!element.sonItem">
-            <a class="a_style" :href="element.url"> {{element.title}}</a>
+            <a class="a_style" :href="element.url"> {{element.title.toString().substring(0, 3)}}</a>
 
           </div>
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
-            <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.title}}</div>
+            <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.title.toString().substring(0, 3)}}</div>
             <div class="model_wrap" v-if='modelWrapIsShow[element.id]'>
               <draggable v-model="element.sonItem" group='site'>
                 <transition-group style="width:100%;height:50vh;display:block">
                   <div class='parent_item' v-for="element in element.sonItem" :key="element.id">
                     <div class="item">
-                      {{element.title}}
+                      {{element.title.toString().substring(0, 3)}}
                     </div>
-                    <span class="title">{{element.title}}</span>
+                    <span class="title">{{element.title.toString().substring(0, 3)}}</span>
                   </div>
                 </transition-group>
               </draggable>
             </div>
           </div>
-          <span class="title">{{element.title}}</span>
+          <span class="title">{{element.title.toString().substring(0, 3)}}</span>
         </div>
       </transition-group>
     </draggable>
@@ -140,13 +140,13 @@ export default {
       console.log(this.password)
 
       let id = new Date().getTime()
-      this.myArray.push({
+      let newArr = {
         id: id,
         url: this.password,
         title: this.username,
-      })
-      console.log(JSON.parse(JSON.stringify(this.myArray)))
-      let data = JSON.parse(JSON.stringify(this.myArray))
+      }
+      //console.log(JSON.parse(JSON.stringify(this.myArray)))
+      let data = JSON.parse(JSON.stringify(newArr))
       addSite({ data: data }).then((res) => {
         console.log(res.data)
         this.syncData()
