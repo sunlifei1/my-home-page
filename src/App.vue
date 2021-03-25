@@ -272,5 +272,6 @@ export default {
   width: 13vw;
   height: 13vw;
   display: block;
+  background-color: transparent;
 }
 </style>
