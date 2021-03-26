@@ -145,8 +145,9 @@ export default {
         url: this.password,
         title: this.username,
       }
+      this.myArray.push(newArr)
       //console.log(JSON.parse(JSON.stringify(this.myArray)))
-      let data = JSON.parse(JSON.stringify(newArr))
+      let data = JSON.parse(JSON.stringify(this.myArray))
       addSite({ data: data }).then((res) => {
         console.log(res.data)
         this.syncData()
