@@ -131,7 +131,7 @@ export default {
     syncData() {
       syncFunc().then((res) => {
         console.log(res.data)
-        this.myArray = res.data.data
+        this.myArray = res.data.data[0].sites
       })
     },
     onSubmit(values) {
