@@ -232,7 +232,7 @@ export default {
 }
 .parent_item {
   //background-color: pink;
-  width: 16vw;
+  width: 16.443vw;
   height: 16vw;
   border-radius: 10px;
   text-align: center;
