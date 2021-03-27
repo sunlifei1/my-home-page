@@ -1,8 +1,8 @@
 <template>
   <div style='width:100%;height:100vh' @click='bodyClick'>
-    <draggable v-model="myArray" group='site'>
+    <draggable v-model="myArray" group='site' animation='1000' touchStartThreshold='100' delay='500' @choose='choose'>
       <transition-group>
-        <div class='parent_item' v-for="element in myArray" :key="element.id">
+        <div  v-for="element in myArray" :key="element.id" :data-url='element.id' :class="['parent_item',{'delete_enable':deleteEnable}]">
           <div class="item" v-if="!element.sonItem">
             <a class="a_style" :href="element.url"> {{element.title.toString().substring(0, 3)}}</a>
 
@@ -10,19 +10,21 @@
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
             <div class="mini_item" v-for="element in element.sonItem" :key="element.id"> {{element.title.toString().substring(0, 3)}}</div>
             <div class="model_wrap" v-if='modelWrapIsShow[element.id]'>
-              <draggable v-model="element.sonItem" group='site'>
+              <draggable v-model="element.sonItem" group='site' animation='1000' touchStartThreshold='100'>
                 <transition-group style="width:100%;height:50vh;display:block">
                   <div class='parent_item' v-for="element in element.sonItem" :key="element.id">
                     <div class="item">
-                      {{element.title.toString().substring(0, 3)}}
+
+                      <a class="a_style" :href="element.url"> {{element.title.toString().substring(0, 3)}}</a>
+
                     </div>
-                    <span class="title">{{element.title.toString().substring(0, 3)}}</span>
+                    <span class="title" >{{element.title.toString().substring(0, 3)}}</span>
                   </div>
                 </transition-group>
               </draggable>
             </div>
           </div>
-          <span class="title">{{element.title.toString().substring(0, 3)}}</span>
+          <span class="title" >{{element.title.toString().substring(0, 3)}}</span>
         </div>
       </transition-group>
     </draggable>
@@ -66,6 +68,7 @@ export default {
   },
   data() {
     return {
+      deleteEnable:false,
       addTitle: '',
       username: '',
       password: '',
@@ -134,6 +137,10 @@ export default {
     }
   },
   methods: {
+    choose(e){
+      console.log(e);
+      this.deleteEnable=true
+    },
     syncData() {
       syncFunc().then((res) => {
         console.log(res.data)
@@ -239,6 +246,18 @@ export default {
   // line-height: 16vw;
   float: left;
   margin: 2.5vw 1.5vw 2.5vw 1.5vw;
+  &.delete_enable::before{
+    content:'';
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    background-color: pink;
+    border-radius: 100%;
+    position: absolute;
+    top: 4px;
+    left: 44px;
+
+  }
 }
 .add_item_wrap {
   // background-color: pink;
