@@ -38,6 +38,12 @@
       </div>
       <span class="title">加组</span>
     </div>
+    <div class="add_item_wrap" @click='syncOrder'>
+      <div class='item'>
+        @
+      </div>
+      <span class="title">云同步</span>
+    </div>
 
     <van-dialog v-model="show" :title="addTitle" show-cancel-button @confirm='onSubmit'>
       <van-form @submit="onSubmit">
@@ -52,7 +58,7 @@
 </template>
 <script>
 import draggable from 'vuedraggable'
-import { syncFunc, addSite } from './api/index'
+import { syncFunc, addSite ,syncOrderApi} from './api/index'
 export default {
   name: 'Home',
   components: {
@@ -147,7 +153,7 @@ export default {
       }
       this.myArray.push(newArr)
       //console.log(JSON.parse(JSON.stringify(this.myArray)))
-      let data = JSON.parse(JSON.stringify(this.myArray))
+      let data = JSON.parse(JSON.stringify(newArr))
       addSite({ data: data }).then((res) => {
         console.log(res.data)
         this.syncData()
@@ -192,6 +198,11 @@ export default {
       a.setAttribute('target', '_blank')
       a.click()
     },
+    syncOrder(){
+      syncOrderApi({data:this.myArray}).then(res=>{
+           console.log(res);
+    })
+    }
   },
   created() {
     this.syncData()
