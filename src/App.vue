@@ -4,7 +4,7 @@
       <transition-group>
         <div  v-for="element in myArray" :key="element.id" :data-url='element.id' :class="['parent_item',{'delete_enable':deleteEnable}]">
           <div class="item" v-if="!element.sonItem">
-            <a class="a_style" :href="element.url"> {{element.title.toString().substring(0, 3)}}</a>
+            <a @touchstart='longTouch' class="a_style" :href="element.url"> {{element.title.toString().substring(0, 3)}}</a>
 
           </div>
           <div class="item_wrap" v-else @click.stop='itemWrapClick(element.id)'>
@@ -137,6 +137,9 @@ export default {
     }
   },
   methods: {
+    longTouch(e){
+       e.preventDefault();
+    },
     choose(e){
       console.log(e);
       this.deleteEnable=true
@@ -171,6 +174,7 @@ export default {
         console.log(item)
         this.modelWrapIsShow[item] = false
       })
+      this.deleteEnable=false
       this.$forceUpdate()
     },
     addSite() {
@@ -246,6 +250,7 @@ export default {
   // line-height: 16vw;
   float: left;
   margin: 2.5vw 1.5vw 2.5vw 1.5vw;
+  position: relative;
   &.delete_enable::before{
     content:'';
     display: inline-block;
